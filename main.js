@@ -3,11 +3,12 @@ const AMS_BASEURL = 'http://api.arbetsformedlingen.se/af/v0/platsannonser/'
 // http://apikatalogen.se/api/carrerjet-api
 // http://apikatalogen.se/api/appjobb-api
 
-const jobListOutput = document.getElementById('job-list-output')
-const allJobsButton = document.getElementById('all-jobs-button')
-const frontEndJobsButton = document.getElementById('front-end-jobs-button')
-const stockholmLocationButton = document.getElementById('stockholm-location-button')
-const jobAmountOutput = document.getElementById('job-amount-output')
+const welcomeMessage = document.getElementById('welcome-message')
+// const jobListOutput = document.getElementById('job-list-output')
+// const allJobsButton = document.getElementById('all-jobs-button')
+// const frontEndJobsButton = document.getElementById('front-end-jobs-button')
+// const stockholmLocationButton = document.getElementById('stockholm-location-button')
+// const jobAmountOutput = document.getElementById('job-amount-output')
 // soklista/yrken?yrkesgruppid=2512
 //matchning?nyckelord="bagare"
 
@@ -16,60 +17,90 @@ const jobAmountOutput = document.getElementById('job-amount-output')
 // Interaktionsdesigner 7575
 // Systemutvecklare/Programmerare 2419
 
-fetch(AMS_BASEURL + 'soklista/yrken?yrkesgruppid=2512')
-.then((res) => res.json())
-.then((jobs) => {
-  console.log(jobs)
-})
+// fetch(AMS_BASEURL + 'soklista/yrken?yrkesgruppid=2512')
+// .then((res) => res.json())
+// .then((jobs) => {
+//   console.log(jobs)
+// })
 
-allJobsArray = []
+// allJobsArray = []
 
-fetchJobs = (searchURL) => {
-  return (
-    fetch(AMS_BASEURL + searchURL)
-    .then((res) => res.json())
-    .then((jobs) => {
-      allJobsArray = jobs
-      return jobs
-    })
-  )
+// fetchJobs = (searchURL) => {
+//   return (
+//     fetch(AMS_BASEURL + searchURL)
+//     .then((res) => res.json())
+//     .then((jobs) => {
+//       allJobsArray = jobs
+//       return jobs
+//     })
+//   )
+// }
+
+// listJobs = (jobs) => {
+//   listedJobs = ''
+//   jobs.map(job => {
+//     listedJobs += `
+//       <li>
+//         <p>${job.annonsrubrik}</p>
+//         <p>${job.arbetsplatsnamn}</p>
+//         <p>${job.anstallningstyp}</p>
+//         <p>${job.kommunnamn}</p>
+//         <p>${job.publiceraddatum}</p>
+//         <p>${job.sista_ansokningsdag}</p>
+//         <p>${job.yrkesbenamning}</p>
+//       </li>
+//     `
+//     // console.log(job)
+//   })
+//   jobAmountOutput.innerHTML = jobs.length
+//   jobListOutput.innerHTML = listedJobs
+// }
+
+// // Fetch and list front end developer jobs
+// fetchJobs('matchning?yrkesid=7633&antalrader=10000')
+// .then(resp => listJobs(resp.matchningslista.matchningdata))
+
+// allJobsButton.addEventListener('click', () => {
+//   listJobs(allJobsArray.matchningslista.matchningdata)
+// })
+
+// frontEndJobsButton.addEventListener('click', (event) => {
+//   let frontEndJobs = allJobsArray.matchningslista.matchningdata.filter(job => job.yrkesbenamning === 'Frontend-utvecklare')
+//   listJobs(frontEndJobs)
+// })
+
+// stockholmLocationButton.addEventListener('click', (event) => {
+//   let stockholmJobs = allJobsArray.matchningslista.matchningdata.filter(job => job.kommunnamn === 'Stockholm')
+//   let filtredStockholmJobs = stockholmJobs.filter(job => job.yrkesbenamning === 'Frontend-utvecklare')
+//   listJobs(filtredStockholmJobs)
+// })
+
+/* ---- */
+
+// console.log(welcomeMessage.split(''))
+
+WELCOMESTRING = 'Hitta ett utvecklarjobb'
+messageArray = WELCOMESTRING.split('')
+// let messageItem = ''
+// messageArray.map(letter => {
+//   // console.log(letter)
+//   var newSpan = document.createElement('span')
+//   newSpan.innerHTML = letter;
+//   console.log(newSpan)
+//   welcomeMessage.appendChild(newSpan);
+//   // messageItem += `<span>${letter}</span>`
+// })
+
+showWelcomeMessage = (index) => {
+  setTimeout(() => {
+    let newSpan = document.createElement('span')
+    newSpan.innerHTML = messageArray[index]
+    welcomeMessage.appendChild(newSpan)
+    newSpan.style.bottom = '0'
+    if (index < messageArray.length-1) {
+      showWelcomeMessage(index+1)
+    }
+  }, 50)
 }
 
-listJobs = (jobs) => {
-  listedJobs = ''
-  jobs.map(job => {
-    listedJobs += `
-      <li>
-        <p>${job.annonsrubrik}</p>
-        <p>${job.arbetsplatsnamn}</p>
-        <p>${job.anstallningstyp}</p>
-        <p>${job.kommunnamn}</p>
-        <p>${job.publiceraddatum}</p>
-        <p>${job.sista_ansokningsdag}</p>
-        <p>${job.yrkesbenamning}</p>
-      </li>
-    `
-    // console.log(job)
-  })
-  jobAmountOutput.innerHTML = jobs.length
-  jobListOutput.innerHTML = listedJobs
-}
-
-// Fetch and list front end developer jobs
-fetchJobs('matchning?yrkesid=7633&antalrader=10000')
-.then(resp => listJobs(resp.matchningslista.matchningdata))
-
-allJobsButton.addEventListener('click', () => {
-  listJobs(allJobsArray.matchningslista.matchningdata)
-})
-
-frontEndJobsButton.addEventListener('click', (event) => {
-  let frontEndJobs = allJobsArray.matchningslista.matchningdata.filter(job => job.yrkesbenamning === 'Frontend-utvecklare')
-  listJobs(frontEndJobs)
-})
-
-stockholmLocationButton.addEventListener('click', (event) => {
-  let stockholmJobs = allJobsArray.matchningslista.matchningdata.filter(job => job.kommunnamn === 'Stockholm')
-  let filtredStockholmJobs = stockholmJobs.filter(job => job.yrkesbenamning === 'Frontend-utvecklare')
-  listJobs(filtredStockholmJobs)
-})
+showWelcomeMessage(0);
